@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+    {% block content %}
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-10">
+    
+          
+                <h1 class="text-center">Current Todos</h1>
+             
+            </div>
+        </div>
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-10">
+            {% if todos %}
+                <div class="list-group">
+   
+                    {% for todo in todos %}
+                        <a href="{{ url_for('todo', id=todo[0]) }}" class="list-group-item list-group-item-action list-group-item-succes"><b>{{ todo[1] }}</b>{% if todo[2] %} - {{ todo[2] }}{% endif %}</a>
+                       
+                        {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center">
+                    <h2>Looks like you don't have any todos! Nice work.</h2>
+                <br>
+                <a role="button" class="btn btn-primary" href="{{ url_for('new_article', filename='') }}">New Todo</a>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+       
+    {% endblock %}
