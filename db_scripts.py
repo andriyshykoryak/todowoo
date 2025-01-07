@@ -23,9 +23,9 @@ class DataBaseManager:
         self.cursor.execute('''INSERT INTO Todo (title,memo,user,important) VALUES(?,?,?,?)''',[title,memo,user,int(important)])
         self.conn.commit()
         self.close()
-    def save_article(self,title,memo):
+    def save_article(self,title,memo,id):
         self.open()
-        self.cursor.execute('''INSERT INTO Todo (title,memo) VALUES(?,?)''',[title,memo])
+        self.cursor.execute('''UPDATE Todo SET title=?,memo=? WHERE id=? ''',[title,memo,id])
         self.conn.commit()
         self.close()
 
@@ -36,8 +36,3 @@ class DataBaseManager:
         self.close()
         return data
     
-    def delete_todo(self,id):
-        self.open()
-        self.cursor.execute('''DELETE FROM Todo WHERE id=? ''' ,[id])
-        data = self.cursor.fetchone()
-        self.close()

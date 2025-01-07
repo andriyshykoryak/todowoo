@@ -32,22 +32,12 @@ def new_article():
     return render_template('newtodo.html')
 
 
-@app.route('/articles/<int:id>')
+@app.route('/todo/<int:id>',methods=["GET","POST"])
 def todo(id):
     todo = db.get_article(id)
+    if request.method == 'POST':
+        todo = db.save_article(request.form['title'],request.form['text'],id)
     return render_template("viewtodo.html",todo=todo)
-@app.route('/articles/<int:id>')
-def todo():
-    if request.method == 'POST':
-        todo = db.save_article(request.form['title'],request.form['text'])
-        todo()
-    return redirect(url_for('currenttodos'))
-@app.route('/articles/<int:id>')
-def deletetodo(id):
-    if request.method == 'POST':
-        db.delete_todo(request.form['title'],request.form['text'])
-    return redirect(url_for('currenttodos'))
-
 
 
 
