@@ -15,7 +15,11 @@
                 <div class="list-group">
    
                     {% for todo in todos %}
-                        <a href="{{ url_for('todo', id=todo[0]) }}" class="list-group-item list-group-item-action list-group-item-succes"><b>{{ todo[1] }}</b>{% if todo[2] %} - {{ todo[2] }}{% endif %}</a>
+                        {% if not todo[6] == "1" %}
+                            <a href="{{ url_for('viewtodo', id=todo[0]) }}" class="list-group-item list-group-item-action {% if todo[5] == 'on' %} list-group-item-warning {% endif %} "><b>{{ todo[1] }}</b>{% if todo[2] %} - {{ todo[2] }}{% endif %}</a>
+                            
+                        {% endif %}    
+
                        
                         {% endfor %}
                 </div>

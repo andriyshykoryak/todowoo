@@ -20,7 +20,7 @@ class DataBaseManager:
         return data
     def add_article(self,title,memo,user,important):
         self.open()
-        self.cursor.execute('''INSERT INTO Todo (title,memo,user,important) VALUES(?,?,?,?)''',[title,memo,user,int(important)])
+        self.cursor.execute('''INSERT INTO Todo (title,memo,user,important) VALUES(?,?,?,?)''',[title,memo,user,important])
         self.conn.commit()
         self.close()
     def save_article(self,title,memo,id):
@@ -35,4 +35,15 @@ class DataBaseManager:
         data = self.cursor.fetchone()
         self.close()
         return data
+
+    def complete_todo(self,completed,id):
+        self.open()
+        self.cursor.execute('''UPDATE Todo SET completed=? WHERE ID=? ''',[completed,id])
+        self.conn.commit()
+        self.close()
     
+    def delete_todo(self,id):
+        self.open()
+        self.cursor.execute('''DELETE FROM Todo WHERE ID=? ''',[id])
+        self.conn.commit()
+        self.close()

@@ -33,13 +33,23 @@ def new_article():
 
 
 @app.route('/todo/<int:id>',methods=["GET","POST"])
-def todo(id):
-    todo = db.get_article(id)
+def viewtodo(id):
     if request.method == 'POST':
-        todo = db.save_article(request.form['title'],request.form['text'],id)
+        db.save_article(request.form['title'],request.form['memo'],id)
+    todo = db.get_article(id)
     return render_template("viewtodo.html",todo=todo)
 
 
+
+@app.route('/todo/delete/<int:id>', methods=["POST"]) 
+def deletetodo(id): 
+    db.delete_todo(id) 
+    return redirect(url_for('currenttodos'))
+
+@app.route('/todo/complete/<int:id>', methods=["POST"]) 
+def completetodo(id): 
+    db.complete_todo(request.form['completed'],id) 
+    return redirect(url_for('currenttodos'))
 
 if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
