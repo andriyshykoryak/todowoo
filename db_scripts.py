@@ -25,13 +25,13 @@ class DataBaseManager:
         self.close()
     def save_article(self,title,memo,id):
         self.open()
-        self.cursor.execute('''UPDATE Todo SET title=?,memo=? WHERE id=? ''',[title,memo,id])
+        self.cursor.execute('''UPDATE Todo SET title=?,memo=? WHERE ID=? ''',[title,memo,id])
         self.conn.commit()
         self.close()
 
     def get_article(self,id):
         self.open()
-        self.cursor.execute('''SELECT * FROM Todo WHERE id=? ''' ,[id])
+        self.cursor.execute('''SELECT * FROM Todo WHERE ID=? ''' ,[id]) 
         data = self.cursor.fetchone()
         self.close()
         return data
