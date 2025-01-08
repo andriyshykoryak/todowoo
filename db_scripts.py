@@ -60,3 +60,19 @@ class DataBaseManager:
             self.conn.commit()
             self.close()
             return True
+
+
+    
+    def get_user(self,id):
+        self.open()
+        self.cursor.execute('''SELECT * FROM Users WHERE id=? ''' ,[id]) 
+        data = self.cursor.fetchone()
+        self.close()
+        return data
+    
+    def check_user(self,login,password):
+        self.open()
+        self.cursor.execute('''SELECT * FROM Users WHERE (login=? AND password=?)''',[login,password])
+        data = self.cursor.fetchone()
+        self.close()
+        return data
