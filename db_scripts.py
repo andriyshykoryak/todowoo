@@ -47,3 +47,16 @@ class DataBaseManager:
         self.cursor.execute('''DELETE FROM Todo WHERE ID=? ''',[id])
         self.conn.commit()
         self.close()
+    
+    def createuser(self,login,password):
+        self.open()
+        self.cursor.execute('''SELECT * FROM Users WHERE login=?''',[login])
+        user = self.cursor.fetchone()
+        if user:
+            self.close()
+            return False
+        else:
+            self.cursor.execute('''INSERT INTO Users (login,password) VALUES(?,?)''',[login,password])
+            self.conn.commit()
+            self.close()
+            return True

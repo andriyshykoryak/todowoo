@@ -51,6 +51,26 @@ def completetodo(id):
     db.complete_todo(request.form['completed'],id) 
     return redirect(url_for('currenttodos'))
 
+
+    
+@app.route("/signup",methods=["GET","POST"])
+def signupuser():
+    if request.method == 'POST':
+        if request.form['password1'] == request.form['password2']:
+            
+            if db.createuser(request.form['username'],request.form['password1']):
+                flash('Користувача зареєстровано','alert-success')
+            else:
+                flash("Ім'я користувача вже зайняте",'alert-danger')
+        else:
+            flash('Паролі повинні співпадати','alert-danger')
+
+    
+    return render_template('signupuser.html')
+
+
+
+
 if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run()
