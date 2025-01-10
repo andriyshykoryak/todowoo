@@ -11,7 +11,7 @@
         </div>
         <div class="row justify-content-center mt-5">
             <div class="col-md-10">
-            {% if todos %}
+            {% if not todos[6] == "1" %}
                 <div class="list-group">
    
                     {% for todo in todos %}
@@ -19,15 +19,13 @@
                             <a href="{{ url_for('viewtodo', id=todo[0]) }}" class="list-group-item list-group-item-action {% if todo[5] == 'on' %} list-group-item-warning {% endif %} "><b>{{ todo[1] }}</b>{% if todo[2] %} - {{ todo[2] }}{% endif %}</a>
                             
                         {% endif %}    
-
-                       
                         {% endfor %}
                 </div>
             {% else %}
                 <div class="text-center">
                     <h2>Looks like you don't have any todos! Nice work.</h2>
                 <br>
-                <a role="button" class="btn btn-primary" href="{{ url_for('new_article', filename='') }}">New Todo</a>
+                <a role="button" class="btn btn-primary" href="{{ url_for('new_article') }}">New Todo</a>
                 </div>
             {% endif %}
             </div>

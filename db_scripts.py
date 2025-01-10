@@ -18,6 +18,16 @@ class DataBaseManager:
         data = self.cursor.fetchall()
         self.close()
         return data
+    
+        
+    def get_all_completed_todos(self,user_id,datecompleted):
+        self.open()
+        self.cursor.execute('''SELECT * FROM Todo WHERE (user=? AND datecompleted IS NOT NULL)''',[user_id,datecompleted])
+        data = self.cursor.fetchall()
+        self.close()
+        return data
+
+
     def add_article(self,title,memo,user,important):
         self.open()
         self.cursor.execute('''INSERT INTO Todo (title,memo,user,important) VALUES(?,?,?,?)''',[title,memo,user,important])
@@ -36,9 +46,10 @@ class DataBaseManager:
         self.close()
         return data
 
-    def complete_todo(self,completed,id):
+    def complete_todo(self,completed,datecompleted,id):
         self.open()
         self.cursor.execute('''UPDATE Todo SET completed=? WHERE ID=? ''',[completed,id])
+        self.cursor.execute('''UPDATE Todo SET datecompleted=? WHERE ID=? ''',[datecompleted,id])
         self.conn.commit()
         self.close()
     

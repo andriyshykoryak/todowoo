@@ -4,7 +4,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 from dotenv import load_dotenv
 load_dotenv()
 import os
-
+from datetime import datetime
 
 db = DataBaseManager('todo.db')
 
@@ -42,19 +42,23 @@ def index():
 def currenttodos():
     todos = db.get_all_todos(current_user.id)
     return render_template("currenttodos.html",todos = todos)
+
+@app.route("/completed")
+@login_required
+def completed():
+    todos = db.get_all_todos(current_user.id)
+    return render_template("completed.html",todos = todos)
     
 @app.route("/todo/new",methods=["GET","POST"])
 @login_required
 def new_article():
     if request.method == 'POST':
-        important = request.form['important']
-        if important != 'on':
-            db.add_article(request.form['title'],request.form['text'],current_user.id,'off')
-        else:
-            db.add_article(request.form['title'],request.form['text'],current_user.id,'on')
-            flash('Завдання додано','alert-success')
+        important = 'on' if request.form.get('important') else 'off'
+        db.add_article(request.form['title'],request.form['text'],current_user.id,important)
+        flash('Завдання додано','alert-success')
 
     return render_template('newtodo.html')
+
 
 
 @app.route('/todo/<int:id>',methods=["GET","POST"])
@@ -76,7 +80,8 @@ def deletetodo(id):
 @app.route('/todo/complete/<int:id>', methods=["POST"]) 
 @login_required
 def completetodo(id): 
-    db.complete_todo(request.form['completed'],id) 
+    current_datetime = datetime.now()
+    db.complete_todo(request.form['completed'],current_datetime.strftime('%Y-%m-%d %H:%M:%S'),id) 
     return redirect(url_for('currenttodos'))
 
 

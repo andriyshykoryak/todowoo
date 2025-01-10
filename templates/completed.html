@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+    {% block content %}
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-10">
+    
+          
+                <h1 class="text-center">Completed Todos</h1>
+             
+            </div>
+        </div>
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-10">
+                <div class="list-group">
+   
+                    {% for todo in todos %}
+                        {% if todo[7] %}
+                            <a href="{{ url_for('viewtodo', id=todo[0]) }}" class="list-group-item list-group-item-action {% if todo[5] == 'on' %} list-group-item-warning {% endif %} "><b>{{ todo[1] }}</b>{% if todo[2] %} - {{ todo[2] }}{% endif %} - {{ todo[7] }}</a>
+                        {% endif %}
+                            {% endfor %}
+                </div>
+   
+  
+            </div>
+        </div>
+       
+    {% endblock %}
