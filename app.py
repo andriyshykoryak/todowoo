@@ -55,7 +55,7 @@ def new_article():
     if request.method == 'POST':
         important = 'on' if request.form.get('important') else 'off'
         db.add_article(request.form['title'],request.form['text'],current_user.id,important)
-        flash('Завдання додано','alert-success')
+        flash('Todo added','alert-success')
 
     return render_template('newtodo.html')
 
@@ -92,11 +92,11 @@ def signupuser():
         if request.form['password1'] == request.form['password2']:
             
             if db.createuser(request.form['username'],request.form['password1']):
-                flash('Користувача зареєстровано','alert-success')
+                flash('User created','alert-success')
             else:
-                flash("Ім'я користувача вже зайняте",'alert-danger')
+                flash("This username is already in use",'alert-danger')
         else:
-            flash('Паролі повинні співпадати','alert-danger')
+            flash('Password must be matched','alert-danger')
 
     
     return render_template('signupuser.html')
@@ -110,7 +110,7 @@ def loginuser():
                 login_user(user)
                 return redirect(url_for('currenttodos'))
             else:
-                flash("Неправильний логін або пароль",'alert-danger')
+                flash("The login and password did not match",'alert-danger')
     
     return render_template('login.html')
 
